@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (izinkontrol !=PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 100);
 
-                    //daha önce izin verilmemişse burası çalışcak :
+                    //daha önce izin verilmemişse burası çalışcak : TODO : bahadır burayı silme
 
                     getLocation();
                 } else {
