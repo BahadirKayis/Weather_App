@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Weather_app</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="must_accep_find_location">Adres Bulmayı Kabul Ediyor musunuz ?</string>
+    <string name="no">Hayır</string>
+    <string name="yes">Evet</string>
+    <string name="cant_find_location">Adres Bulunamadı</string>
+</resources>
