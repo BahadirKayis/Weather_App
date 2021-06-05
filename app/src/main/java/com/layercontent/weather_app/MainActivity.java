@@ -23,6 +23,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,15 +49,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     LocationManager locationManager;
     public Criteria criteria;
     public String bestProvider;
+    LinearLayout linear1,linear2,linear3,linear4;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         add = findViewById(R.id.imageadd);
         add.setOnClickListener(this);
-        text=findViewById(R.id.textView2);
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(MainActivity.this);
+linear1=findViewById(R.id.linearLayout1);
+        linear2=findViewById(R.id.linearLayout2);
+        linear3=findViewById(R.id.linearLayout3);
+        linear4=findViewById(R.id.linearLayout4);
 
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(MainActivity.this);
+linear1.setOnClickListener(this);
+        linear2.setOnClickListener(this);
+        linear3.setOnClickListener(this);
+        linear4.setOnClickListener(this);
     }
 
     @Override
@@ -85,8 +94,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         getLocation();
 
                     }
-
-
                     try {
                         Geocoder geocoder;
                         List<Address> addresses;
@@ -109,6 +116,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
                 }
+                break;
+            case R.id.linearLayout1:
+                startActivity(new Intent(MainActivity.this,Detalist.class));
+                break;
+            case R.id.linearLayout2:
+                break;
+            case R.id.linearLayout3:
+                break;
+            case R.id.linearLayout4:
                 break;
         }
 
