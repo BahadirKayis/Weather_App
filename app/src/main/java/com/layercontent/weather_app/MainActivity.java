@@ -49,20 +49,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     LocationManager locationManager;
     public Criteria criteria;
     public String bestProvider;
-    LinearLayout linear1,linear2,linear3,linear4;
+    LinearLayout linear1, linear2, linear3, linear4;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         add = findViewById(R.id.imageadd);
         add.setOnClickListener(this);
-linear1=findViewById(R.id.linearLayout1);
-        linear2=findViewById(R.id.linearLayout2);
-        linear3=findViewById(R.id.linearLayout3);
-        linear4=findViewById(R.id.linearLayout4);
+        linear1 = findViewById(R.id.linearLayout1);
+        linear2 = findViewById(R.id.linearLayout2);
+        linear3 = findViewById(R.id.linearLayout3);
+        linear4 = findViewById(R.id.linearLayout4);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(MainActivity.this);
-linear1.setOnClickListener(this);
+        linear1.setOnClickListener(this);
         linear2.setOnClickListener(this);
         linear3.setOnClickListener(this);
         linear4.setOnClickListener(this);
@@ -73,7 +74,7 @@ linear1.setOnClickListener(this);
         switch (v.getId()) {
             case R.id.imageadd:
                 izinkontrol = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-                if (izinkontrol !=PackageManager.PERMISSION_GRANTED) {
+                if (izinkontrol != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 100);
 
                     //daha önce izin verilmemişse burası çalışcak :Todo : yeni şeyler
@@ -86,7 +87,7 @@ linear1.setOnClickListener(this);
 //                    getLocation();
 
 
-                     locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                    locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
                     if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                         OnGPS();
@@ -107,18 +108,17 @@ linear1.setOnClickListener(this);
                         String country = addresses.get(0).getCountryName();
                         String postalCode = addresses.get(0).getPostalCode();
                         String knownName = addresses.get(0).getFeatureName();
-                      text.setText(state);
+                        text.setText(state);
 
                     } catch (Exception e) {
                         Log.e("Location Error ", e.getMessage());
                     }
 
 
-
                 }
                 break;
             case R.id.linearLayout1:
-                startActivity(new Intent(MainActivity.this,Detalist.class));
+                startActivity(new Intent(MainActivity.this, Detalist.class));
                 break;
             case R.id.linearLayout2:
                 break;
@@ -132,7 +132,7 @@ linear1.setOnClickListener(this);
 
     private void OnGPS() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(getResources().getString(R.string.must_accep_find_location)).setCancelable(false).setPositiveButton(getResources().getString(R.string.yes), new  DialogInterface.OnClickListener() {
+        builder.setMessage(getResources().getString(R.string.must_accep_find_location)).setCancelable(false).setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
@@ -146,6 +146,7 @@ linear1.setOnClickListener(this);
         final AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
+
     @Override
     public void onLocationChanged(Location location) {
 
@@ -159,12 +160,13 @@ linear1.setOnClickListener(this);
 //        latitude = location.getLatitude();
 //        longitude = location.getLongitude();
         // Toast.makeText(ProfileActivity.this, "latitude:" + latitude + " longitude:" + longitude, Toast.LENGTH_SHORT).show();
-       // searchNearestPlace(voice2text);
+        // searchNearestPlace(voice2text);
 
     }
+
     private void getLocation() {
         if (ActivityCompat.checkSelfPermission(
-                MainActivity.this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
                 MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         } else {
@@ -182,7 +184,6 @@ linear1.setOnClickListener(this);
                 locationManager.requestLocationUpdates(bestProvider, 1000, 0, this);
 
 
-
                 Location locationGPS2 = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                 // Location locationGPS2 = locationManager.getLastKnownLocation();
                 onLocationChanged(locationGPS2);
@@ -193,9 +194,8 @@ linear1.setOnClickListener(this);
                     longitude = Double.parseDouble(String.valueOf(longi));
                 } else {
                     locationManager.requestLocationUpdates(bestProvider, 1000, 0, this);
-                    Toast.makeText(this,getResources().getString( R.string.cant_find_location), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getResources().getString(R.string.cant_find_location), Toast.LENGTH_SHORT).show();
                 }
-
 
 
             }
@@ -242,7 +242,7 @@ linear1.setOnClickListener(this);
         if (requestCode == 100) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(getApplicationContext(), "Lokasyon erişimine izin verildi", Toast.LENGTH_SHORT).show();
-               // startActivity(new Intent(MainActivity.this,MapsActivity.class));
+                // startActivity(new Intent(MainActivity.this,MapsActivity.class));
             } else {
                 Toast.makeText(getApplicationContext(), "Lokasyon erişimini açın lan", Toast.LENGTH_SHORT).show();
             }
