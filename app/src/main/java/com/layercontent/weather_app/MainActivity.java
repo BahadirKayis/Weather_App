@@ -118,7 +118,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
             case R.id.linearLayout1:
-                startActivity(new Intent(MainActivity.this, Detalist.class));
+                String country=text.getText().toString().trim();
+                Intent i=new Intent(MainActivity.this,Detalist.class);
+                i.putExtra("country",country);
+                startActivity(i);
                 break;
             case R.id.linearLayout2:
                 break;
