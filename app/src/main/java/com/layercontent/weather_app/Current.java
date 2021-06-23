@@ -4,9 +4,10 @@ package com.layercontent.weather_app;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 
 
-public class Current {
+public class Current implements Serializable {
 
     @SerializedName("last_updated_epoch")
     @Expose

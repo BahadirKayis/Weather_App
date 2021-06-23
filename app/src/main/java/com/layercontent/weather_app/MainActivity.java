@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         add = findViewById(R.id.imageadd);
         add.setOnClickListener(this);
+        text=findViewById(R.id.linear1text1);
         linear1 = findViewById(R.id.linearLayout1);
         linear2 = findViewById(R.id.linearLayout2);
         linear3 = findViewById(R.id.linearLayout3);

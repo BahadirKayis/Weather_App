@@ -1,0 +1,22 @@
+package com.layercontent.weather_app.Retrofit;
+
+import com.layercontent.weather_app.Wee;
+
+import java.util.List;
+
+import retrofit2.Call;
+
+public class ManegarAll extends BaseManager {
+    private static ManegarAll ourınstance=new ManegarAll();
+    public static synchronized ManegarAll getInstance(){
+        return ourınstance;
+    }
+    public Call<Wee> getirbilgier(String api,String sehir,int days){
+        Call<Wee>call= getresthava().havadurumu(api,sehir,days);
+
+        //apiutilsa gidiyor
+        //oradan getuserinter clasını çağırıyor oradan da interface den bilgiler clasını çağırıyor,
+        //ondan sonra getirbilgiler sınıfını bilgilerin görüneceği yerde çağırıyoruz
+        return call;
+    }
+}

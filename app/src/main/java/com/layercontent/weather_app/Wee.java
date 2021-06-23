@@ -5,7 +5,9 @@ package com.layercontent.weather_app;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Wee {
+import java.io.Serializable;
+
+public class Wee implements Serializable {
 
     @SerializedName("location")
     @Expose
