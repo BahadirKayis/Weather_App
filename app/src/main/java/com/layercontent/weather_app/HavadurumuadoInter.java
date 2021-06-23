@@ -10,11 +10,11 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface HavadurumuadoInter {
-/*@POST("f4addb85b5e4492f8ed115420211606")
+    /*@POST("f4addb85b5e4492f8ed115420211606")
+        @FormUrlEncoded
+        Call <Wee>konum(@Field("location")Location location);
+    */
+    @POST("current.json")
     @FormUrlEncoded
-    Call <Wee>konum(@Field("location")Location location);
-*/
-@POST("current.json")
-    @FormUrlEncoded
-    Call<Wee> havadurumu(@Field("key") String key,@Field("q")String sehir,@Field("days")int days);
+    Call<Wee> havadurumu(@Field("key") String key, @Field("q") String sehir, @Field("days") int days);
 }

@@ -15,24 +15,25 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Detalist extends AppCompatActivity {
-String sehir;
-String sss;
-final String api="f4addb85b5e4492f8ed115420211606";
+    String sehir;
+    String sss;
+    final String api = "f4addb85b5e4492f8ed115420211606";
+    List<Wee> list;
 
-List<Wee>list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalist);
-         sehir=getIntent().getStringExtra("country");
-         Havadurum(api,sehir,3);
+        sehir = getIntent().getStringExtra("country");
+        Havadurum(api, sehir, 3);
     }
-    public void Havadurum(String api,String sehir,int days){
-        Call<Wee>call= ManegarAll.getInstance().getirbilgier(api,sehir,days);
+
+    public void Havadurum(String api, String sehir, int days) {
+        Call<Wee> call = ManegarAll.getInstance().getirbilgier(api, sehir, days);
         call.enqueue(new Callback<Wee>() {
             @Override
             public void onResponse(retrofit2.Call<Wee> call, Response<Wee> response) {
-              Log.i("xxx",response.body().getCurrent().getCondition().getText());
+                Log.i("xxx", response.body().getCurrent().getCondition().getText());
             }
 
             @Override
