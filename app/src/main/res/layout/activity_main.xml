@@ -94,8 +94,8 @@
 
                         <ImageView
                             android:id="@+id/linear1image"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
                             android:layout_gravity="center"
                             android:layout_marginEnd="16dp"
                             android:layout_marginRight="16dp"

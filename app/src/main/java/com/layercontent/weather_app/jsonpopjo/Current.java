@@ -1,13 +1,11 @@
+package com.layercontent.weather_app.jsonpopjo;
 
-package com.layercontent.weather_app;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
 
-
-public class Current implements Serializable {
+public class Current {
 
     @SerializedName("last_updated_epoch")
     @Expose
@@ -27,6 +25,9 @@ public class Current implements Serializable {
     @SerializedName("condition")
     @Expose
     private Condition condition;
+    @SerializedName("uv")
+    @Expose
+    private Double uv;
 
     public Integer getLastUpdatedEpoch() {
         return lastUpdatedEpoch;
@@ -74,6 +75,14 @@ public class Current implements Serializable {
 
     public void setCondition(Condition condition) {
         this.condition = condition;
+    }
+
+    public Double getUv() {
+        return uv;
+    }
+
+    public void setUv(Double uv) {
+        this.uv = uv;
     }
 
 }

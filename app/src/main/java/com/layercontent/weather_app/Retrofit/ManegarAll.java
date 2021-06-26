@@ -1,6 +1,7 @@
 package com.layercontent.weather_app.Retrofit;
 
-import com.layercontent.weather_app.Wee;
+
+import com.layercontent.weather_app.jsonpopjo.Wee;
 
 import java.util.List;
 
@@ -11,8 +12,8 @@ public class ManegarAll extends BaseManager {
     public static synchronized ManegarAll getInstance(){
         return ourınstance;
     }
-    public Call<Wee> getirbilgier(String api,String sehir,int days){
-        Call<Wee>call= getresthava().havadurumu(api,sehir,days);
+    public Call<Wee> getirbilgier(String api, String sehir, int days, String lang){
+        Call<Wee>call= getresthava().havadurumu(api,sehir,days,lang);
 
         //apiutilsa gidiyor
         //oradan getuserinter clasını çağırıyor oradan da interface den bilgiler clasını çağırıyor,

@@ -1,14 +1,11 @@
-
-package com.layercontent.weather_app;
+package com.layercontent.weather_app.jsonpopjo;
 
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
 
-
-public class Location implements Serializable {
+public class Location {
 
     @SerializedName("name")
     @Expose

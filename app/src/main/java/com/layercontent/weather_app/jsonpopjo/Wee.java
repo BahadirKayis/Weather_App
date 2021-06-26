@@ -1,13 +1,11 @@
-
-package com.layercontent.weather_app;
+package com.layercontent.weather_app.jsonpopjo;
 
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
 
-public class Wee implements Serializable {
+public class Wee {
 
     @SerializedName("location")
     @Expose
@@ -15,6 +13,9 @@ public class Wee implements Serializable {
     @SerializedName("current")
     @Expose
     private Current current;
+    @SerializedName("forecast")
+    @Expose
+    private Forecast forecast;
 
     public Location getLocation() {
         return location;
@@ -30,6 +31,14 @@ public class Wee implements Serializable {
 
     public void setCurrent(Current current) {
         this.current = current;
+    }
+
+    public Forecast getForecast() {
+        return forecast;
+    }
+
+    public void setForecast(Forecast forecast) {
+        this.forecast = forecast;
     }
 
 }
