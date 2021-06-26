@@ -32,6 +32,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.layercontent.weather_app.Retrofit.ManegarAll;
+import com.layercontent.weather_app.adapter.Adapterhavadurumu;
 import com.layercontent.weather_app.jsonpopjo.Condition;
 import com.layercontent.weather_app.jsonpopjo.Wee;
 import com.squareup.picasso.Picasso;
@@ -50,6 +51,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, LocationListener {
     private int izinkontrol;
     ImageView add;
+    String resimid;
     FusedLocationProviderClient fusedLocationProviderClient;
     TextView text;
     //Linear1
@@ -151,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.linearLayout1:
                 String country = text.getText().toString().trim();
                 Intent i = new Intent(MainActivity.this, Detalist.class);
+                i.putExtra("resim",resimid);
                 i.putExtra("country", country);
                 startActivity(i);
                 break;
@@ -287,15 +290,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void todaysweatherresim(String durum, String resimtext) {
         if (durum.equals("Güneşli")) {
             havaresim.setImageResource(R.drawable.ic_sunny);
+            resimid= String.valueOf(R.drawable.ic_sunny);
         }
 
       else   if (durum.equals("Bulutlu")
                 & durum.equals("Çok Bulutlu")) {
             havaresim.setImageResource(R.drawable.ic_clouds);
+            resimid= String.valueOf(R.drawable.ic_clouds);
         }
         else   if (durum.equals("Parçalı Bulutlu")
                 ) {
-            havaresim.setImageResource(R.drawable.ic_pblut);
+            havaresim.setImageResource(R.drawable.ic_pblut);///BU KODU ALIPGÖNDERCEM
+            resimid= String.valueOf(R.drawable.ic_pblut);
         }
         //YAĞMUR&KAR
         else   if (durum.equals("Hafif yağmurlu")
@@ -303,11 +309,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 & durum.equals("Hafif sağnak yağışlı")) {
 
             havaresim.setImageResource(R.drawable.ic_hafifyamur);
+            resimid= String.valueOf(R.drawable.ic_hafifyamur);
         }
         else   if (durum.equals("Bölgesel düzensiz yağmur yağışlı")
                 & durum.equals("Ara ara orta kuvvetli yağmurlu")
                 & durum.equals("Orta kuvvetli yağmurlu")) {
             havaresim.setImageResource(R.drawable.ic_yamur);
+            resimid= String.valueOf(R.drawable.ic_yamur);
         }
         else   if (durum.equals("Şiddetli yağmurlu")
                 & durum.equals("Bölgesel düzensiz gök gürültülü yağmurlu")
@@ -315,39 +323,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 & durum.equals("Şiddetli sağnak yağmur")
                 & durum.equals("Ara ara şiddetli yağmurlu")) {
             havaresim.setImageResource(R.drawable.ic_saganakyamur);
+            resimid= String.valueOf(R.drawable.ic_saganakyamur);
 
         }
         else  if (durum.equals("Hafif buz taneleri şeklinde sağnak yağış")
                 & durum.equals("Hafif karla karışık yağmur")
                 & durum.equals("Hafif dondurucu yağmurlu")) {
             havaresim.setImageResource(R.drawable.ic_karlayamur);
+            resimid= String.valueOf(R.drawable.ic_karlayamur);
 
         }
         else   if (durum.equals("Orta kuvvetli veya yoğun buz taneleri sağnak yağışlı")
                 & durum.equals("Orta kuvvetli veya şiddetli karla karışık yağmur")
                 & durum.equals("Orta kuvvetli veya Şiddetli dondurucu yağmurlu")) {
             havaresim.setImageResource(R.drawable.ic_yukselikarlayamur);
+            resimid= String.valueOf(R.drawable.ic_yukselikarlayamur);
 
         }
         else  if (durum.equals("Hafif sağnak şeklinde kar")
                 & durum.equals("Düzensiz hafif karlı")
                 & durum.equals("Hafif karlı")) {
             havaresim.setImageResource(R.drawable.ic_hafifkar);
+            resimid= String.valueOf(R.drawable.ic_hafifkar);
 
         }
         else  if (durum.equals("Düzensiz yoğun kar yağışlı")
                 & durum.equals("Orta kuvvetli veya yoğun ve sağnak şeklinde kar")
                 & durum.equals("Yoğun kar yağışlı")) {
             havaresim.setImageResource(R.drawable.ic_yukkar);
+            resimid= String.valueOf(R.drawable.ic_yukkar);
 
         }
         else   if (durum.equals("Orta kuvvetli karlı") & durum.equals("Bölgesel düzensiz kar yağışlı")) {
             havaresim.setImageResource(R.drawable.ic_kar);
+            resimid= String.valueOf(R.drawable.ic_kar);
 
         }
         else    if (durum.equals("Kar fırtınası")
         ) {
             havaresim.setImageResource(R.drawable.ic_firtinakar);
+            resimid= String.valueOf(R.drawable.ic_firtinakar);
 
         }
         else  if (durum.equals("Puslu")
@@ -355,9 +370,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 & durum.equals("Tipi")
                 & durum.equals("Sisli")) {
             havaresim.setImageResource(R.drawable.ic_sisli);
+            resimid= String.valueOf(R.drawable.ic_sisli);
 
         } else {
             Picasso.get().load(resimtext).into(havaresim);
+            resimid=resimtext;
         }
     }
 
@@ -366,7 +383,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         call.enqueue(new Callback<Wee>() {
             @Override
             public void onResponse(Call<Wee> call, Response<Wee> response) {
-                ulke.setText(response.body().getLocation().getCountry() + "\n" + response.body().getLocation().getLocaltime().toString());
+                ulke.setText(response.body().getLocation().getCountry()+ "," + response.body().getLocation().getLocaltime().substring(10,16));
+
                 String s = String.format("%.0f", response.body().getCurrent().getTempC());
                 derece.setText(s + "°");
                 Log.i("xxx", response.body().getCurrent().getCondition().getText());

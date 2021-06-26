@@ -1,26 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="5dp"
+    android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="100dp"
+    android:layout_height="150dp">
 
     <TextView
         android:id="@+id/stackgun"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat_bold"
         android:text="Mon"
+        android:layout_marginBottom="2dp"
+        android:textAlignment="center"
         android:textColor="@color/black"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/stackresim"
+        app:layout_constraintStart_toStartOf="@+id/stackresim"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/stackresim"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="3dp"
+android:layout_gravity="center"
         android:src="@drawable/ic_cloud_lightning"
-        app:layout_constraintEnd_toEndOf="@+id/stackgun"
-        app:layout_constraintStart_toStartOf="@+id/stackgun"
-        app:layout_constraintTop_toBottomOf="@+id/stackgun" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintBottom_toTopOf="@+id/stacktarih"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/stacktarih"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="1dp"
+        android:text="TextView"
+android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/stackresim"
+        app:layout_constraintTop_toBottomOf="@id/stackresim" />
+</LinearLayout>
