@@ -33,17 +33,18 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/textViewsehir"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat_extrabold"
         android:text="New York"
+        android:textColor="@color/black"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textgunsaat"
-       android:textColor="@color/black"
-        android:textSize="30sp"
-        android:fontFamily="@font/montserrat_extrabold"/>
+        app:layout_constraintTop_toBottomOf="@id/textgunsaat" />
 
     <TextView
         android:id="@+id/textderece"
@@ -65,9 +66,9 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat_extrabold"
         android:text="°C"
         android:textColor="@color/black"
-        android:fontFamily="@font/montserrat_extrabold"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/textderece"
         app:layout_constraintEnd_toEndOf="parent"
@@ -95,8 +96,8 @@
         android:layout_width="0dp"
         android:layout_height="150dp"
         android:layout_marginTop="10dp"
-android:paddingLeft="10dp"
         android:foregroundGravity="center"
+        android:paddingLeft="10dp"
         app:layout_constraintEnd_toEndOf="@+id/imagehavaresim"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/imagehavaresim"
