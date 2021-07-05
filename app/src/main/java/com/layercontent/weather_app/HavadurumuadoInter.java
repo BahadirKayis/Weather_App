@@ -1,5 +1,6 @@
 package com.layercontent.weather_app;
 
+import com.layercontent.weather_app.jsonpopjo.SehirCevap;
 import com.layercontent.weather_app.jsonpopjo.Wee;
 
 import java.util.List;
@@ -16,4 +17,8 @@ public interface HavadurumuadoInter {
     @POST("forecast.json ")
     @FormUrlEncoded
     Call<Wee> havadurumu(@Field("key") String key, @Field("q") String sehir, @Field("days") int days, @Field("lang") String lang);
+
+
+    @GET("cf32d03d-1f02-47a5-b541-17a9e0e15cc5")
+    Call<List<SehirCevap>>Sehirler();
 }

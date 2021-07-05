@@ -121,7 +121,7 @@
             <LinearLayout
                 android:id="@+id/linearLayout2"
                 android:layout_width="match_parent"
-
+           android:visibility="invisible"
                 android:layout_height="120dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="30dp"
@@ -158,7 +158,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text="USA, 12AM"
+                        android:textAllCaps="true"
                         android:textColor="@color/black"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -171,8 +173,8 @@
 
                     <ImageView
                         android:id="@+id/linear2image"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:layout_gravity="center"
                         android:layout_marginEnd="16dp"
                         android:layout_marginRight="16dp"
@@ -186,8 +188,8 @@
                         android:fontFamily="@font/montserrat_extrabold"
                         android:gravity="center"
                         android:text="85°"
-                        android:textColor="@color/black"
 
+                        android:textColor="@color/black"
                         android:textSize="40sp" />
 
                 </LinearLayout>
@@ -198,7 +200,7 @@
             <LinearLayout
                 android:id="@+id/linearLayout3"
                 android:layout_width="match_parent"
-
+                android:visibility="invisible"
                 android:layout_height="120dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="30dp"
@@ -235,7 +237,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text="USA, 12AM"
+                        android:textAllCaps="true"
                         android:textColor="@color/black"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -248,8 +252,8 @@
 
                     <ImageView
                         android:id="@+id/linear3image"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:layout_gravity="center"
                         android:layout_marginEnd="16dp"
                         android:layout_marginRight="16dp"
@@ -263,8 +267,8 @@
                         android:fontFamily="@font/montserrat_extrabold"
                         android:gravity="center"
                         android:text="85°"
-                        android:textColor="@color/black"
 
+                        android:textColor="@color/black"
                         android:textSize="40sp" />
 
                 </LinearLayout>
@@ -275,7 +279,7 @@
             <LinearLayout
                 android:id="@+id/linearLayout4"
                 android:layout_width="match_parent"
-
+                android:visibility="invisible"
                 android:layout_height="120dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="30dp"
@@ -312,8 +316,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:text="USA, 12AM"
+                        android:textAllCaps="true"
                         android:textColor="@color/black"
-                        android:textStyle="bold" />
+                        android:textSize="15sp"
+                        android:textStyle="bold"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -325,8 +331,8 @@
 
                     <ImageView
                         android:id="@+id/linear4image"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:layout_gravity="center"
                         android:layout_marginEnd="16dp"
                         android:layout_marginRight="16dp"
@@ -340,8 +346,8 @@
                         android:fontFamily="@font/montserrat_extrabold"
                         android:gravity="center"
                         android:text="85°"
-                        android:textColor="@color/black"
 
+                        android:textColor="@color/black"
                         android:textSize="40sp" />
 
                 </LinearLayout>
@@ -374,4 +380,3 @@
     </LinearLayout>
 
 </LinearLayout>
-

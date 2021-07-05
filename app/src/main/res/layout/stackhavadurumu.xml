@@ -4,8 +4,8 @@
     android:padding="5dp"
     android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="100dp"
-    android:layout_height="150dp">
+    android:layout_width="170dp"
+    android:layout_height="180dp">
 
     <TextView
         android:id="@+id/stackgun"
@@ -22,8 +22,8 @@
 
     <ImageView
         android:id="@+id/stackresim"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="100dp"
+        android:layout_height="80dp"
         android:layout_marginBottom="3dp"
 android:layout_gravity="center"
         android:src="@drawable/ic_cloud_lightning"
@@ -32,14 +32,24 @@ android:layout_gravity="center"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/stackderece"
+        android:layout_width="match_parent"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:fontFamily="@font/montserrat_bold"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+    <TextView
         android:id="@+id/stacktarih"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="3dp"
         android:layout_marginBottom="1dp"
         android:text="TextView"
-android:textAlignment="center"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/stackresim"
         app:layout_constraintTop_toBottomOf="@id/stackresim" />
+
 </LinearLayout>

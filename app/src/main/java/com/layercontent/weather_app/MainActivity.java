@@ -6,11 +6,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Criteria;
@@ -29,18 +29,10 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.layercontent.weather_app.Retrofit.ManegarAll;
-import com.layercontent.weather_app.adapter.Adapterhavadurumu;
-import com.layercontent.weather_app.jsonpopjo.Condition;
 import com.layercontent.weather_app.jsonpopjo.Wee;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
-import java.io.IOException;
-import java.time.temporal.Temporal;
 import java.util.List;
 import java.util.Locale;
 
@@ -50,13 +42,26 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, LocationListener {
     private int izinkontrol;
+    int click;
+
     ImageView add;
     String resimid;
     FusedLocationProviderClient fusedLocationProviderClient;
     TextView text;
     //Linear1
     TextView lnsehir, ulke, derece;
-    ImageView havaresim;
+    ImageView havaresim1;
+    //linear2
+    TextView lnsehir2, ulke2, derece2;
+    ImageView havaresim2;
+    ///////
+    //linear3
+    TextView lnsehir3, ulke3, derece3;
+    ImageView havaresim3;
+    ///////
+    //linear4
+    TextView lnsehir4, ulke4, derece4;
+    ImageView havaresim4;
     ///////
     double longitude;
     double latitude;
@@ -66,12 +71,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     LinearLayout linear1, linear2, linear3, linear4;
     //havadurumuapi
     final String api = "f4addb85b5e4492f8ed115420211606";
-    List<Condition> bugunhavadurumu;
+    String secilensehir;
+
+    private SharedPreferences sh;
+    private SharedPreferences.Editor shE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        sh = getSharedPreferences("SehirSayaci", MODE_PRIVATE);
+
+        shE = sh.edit();
+   /*  shE.remove("sayac").apply();
+         shE.putString("Sehir1",null);
+        shE.putString("Sehir2",null);
+        shE.putString("Sehir3",null);
+        shE.commit();*/
         add = findViewById(R.id.imageadd);
         add.setOnClickListener(this);
         text = findViewById(R.id.linear1text1);
@@ -81,20 +99,179 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         linear4 = findViewById(R.id.linearLayout4);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(MainActivity.this);
-        linear1.setOnClickListener(this);
-        linear2.setOnClickListener(this);
-        linear3.setOnClickListener(this);
-        linear4.setOnClickListener(this);
+        linear1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (sh.getString("resim1", null) != null) {
+
+                    String country = text.getText().toString().trim();
+                    Intent i = new Intent(MainActivity.this, Detalist.class);
+                    i.putExtra("resim", sh.getString("resim1", resimid));
+                    i.putExtra("country", country);
+                    startActivity(i);
+                }
+            }
+        });
+        linear2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (sh.getString("resim2", null) != null) {
+
+                    Intent i = new Intent(MainActivity.this, Detalist.class);
+                    i.putExtra("resim", sh.getString("resim2", resimid));
+                    i.putExtra("country", lnsehir2.getText().toString());
+                    startActivity(i);
+                }
+            }
+        });
+        linear3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (sh.getString("resim3", null) != null) {
+
+                    Intent i = new Intent(MainActivity.this, Detalist.class);
+                    i.putExtra("resim", sh.getString("resim3", resimid));
+                    i.putExtra("country", lnsehir3.getText().toString());
+                    startActivity(i);
+                }
+            }
+        });
+        linear4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (sh.getString("resim4", null) != null) {
+
+                    Intent i = new Intent(MainActivity.this, Detalist.class);
+                    i.putExtra("resim", sh.getString("resim4", resimid));
+                    i.putExtra("country", lnsehir4.getText().toString());
+                    startActivity(i);
+                }
+            }
+        });
         anlikkonum();
         ///
         tanim();
+
+        secilensehir = getIntent().getStringExtra("sehir");
+        ListSehirsec();
+
+
+/*if (click==2){
+    Log.i("Sehir1",sh.getString("Sehir1","gelmedi") );
+    Log.i("Sehir2",sh.getString("Sehir2","gelmedi") );
+    todaysweatherlinear2(api, sh.getString("Sehir1",null), 3, "tr");
+    todaysweatherlinear3(api, sh.getString("Sehir2",null), 3, "tr");
+        }
+ if (click==1){
+    todaysweatherlinear2(api, sh.getString("Sehir1","gelmedi"), 3, "tr");
+}*/
+
+    }
+
+    private void todaysweatherlinear4(String api, String sehir2, int i, String tr) {
+        Call<Wee> call = ManegarAll.getInstance().getirbilgier(api, sehir2, i, tr);
+        call.enqueue(new Callback<Wee>() {
+            @Override
+            public void onResponse(Call<Wee> call, Response<Wee> response) {
+                if (response.isSuccessful()){
+                final int lenght = response.body().getLocation().getLocaltime().length();
+                lnsehir4.setText(sh.getString("Sehir3", "gelmedi"));
+                ulke4.setText(response.body().getLocation().getCountry() + "," + response.body().getLocation().getLocaltime().substring(10, lenght));
+
+                String s = String.format("%.0f", response.body().getCurrent().getTempC());
+                derece4.setText(s + "°");
+
+                String resim = "http:" + response.body().getCurrent().getCondition().getIcon();// http://cdn.weatherapi.com/weather/64x64/day/116.png
+                String havatexti = response.body().getCurrent().getCondition().getText();
+                todaysweatherresim(havatexti, resim, havaresim4);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Wee> call, Throwable t) {
+            }
+        });
+    }
+
+    public void ListSehirsec() {
+        click = sh.getInt("sayac", 0);
+
+        switch (click) {
+
+            case 1:
+                if (secilensehir != null) {
+                    shE.putString("Sehir1", secilensehir);
+                    shE.commit();
+                }
+
+                break;
+            case 2:
+                if (secilensehir != null) {
+
+                 //   secilensehir = sh.getString("Sehir2", secilensehir);
+                    shE.putString("Sehir2", secilensehir);
+                    shE.commit();
+                }
+                break;
+            case 3:
+
+                if (secilensehir != null) {
+                    //secilensehir = sh.getString("Sehir3", secilensehir);
+                    shE.putString("Sehir3", secilensehir);
+                    shE.putInt("sayac", 0);
+                    shE.commit();
+                    click=sh.getInt("sayac",0);
+                }
+
+                break;
+
+        }
+
+        if (sh.getString("Sehir1", null) != null) {
+            todaysweatherlinear2(api, sh.getString("Sehir1", null), 3, "tr");
+            linear2.setVisibility(View.VISIBLE);
+
+
+        }
+        if (sh.getString("Sehir2", null) != null) {
+            todaysweatherlinear3(api, sh.getString("Sehir2", null), 3, "tr");
+            linear3.setVisibility(View.VISIBLE);
+
+        }
+        if (sh.getString("Sehir3", null) != null) {
+            todaysweatherlinear4(api, sh.getString("Sehir3", null), 3, "tr");
+            linear4.setVisibility(View.VISIBLE);
+
+        }
+        Log.i("Sehir", sh.getString("Sehir1","Gelmedi1"));
+        Log.i("Sehir", sh.getString("Sehir2","Gelmedi2"));
+        Log.i("Sehir", sh.getString("Sehir3","Gelmedi3"));
+        Log.i("Sehir", String.valueOf(sh.getInt("sayac",0)));
+        Log.i("Sehir", String.valueOf(click)+"Clik");
+
     }
 
     public void tanim() {
         lnsehir = findViewById(R.id.linear1text1);
         ulke = findViewById(R.id.linear2text2);
         derece = findViewById(R.id.linear1text3);
-        havaresim = findViewById(R.id.linear1image);
+        havaresim1 = findViewById(R.id.linear1image);
+
+        lnsehir2 = findViewById(R.id.linear2text1);
+        ulke2 = findViewById(R.id.lineart2ext2);
+        derece2 = findViewById(R.id.linear2text3);
+        havaresim2 = findViewById(R.id.linear2image);
+
+        lnsehir3 = findViewById(R.id.linear3text1);
+        ulke3 = findViewById(R.id.lineart3ext2);
+        derece3 = findViewById(R.id.linear3text3);
+        havaresim3 = findViewById(R.id.linear3image);
+
+        lnsehir4 = findViewById(R.id.linear4text1);
+        ulke4 = findViewById(R.id.linear42ext2);
+        derece4 = findViewById(R.id.linear4text3);
+        havaresim4 = findViewById(R.id.linear4image);
     }
 
     public void anlikkonum() {
@@ -146,23 +323,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+
+
         switch (v.getId()) {
             case R.id.imageadd:
+                click++;
+                shE.putInt("sayac", click);
+                shE.commit();
+                startActivity(new Intent(MainActivity.this, SehirSecme.class));
 
                 break;
-            case R.id.linearLayout1:
+           /*  case R.id.linearLayout1:
                 String country = text.getText().toString().trim();
                 Intent i = new Intent(MainActivity.this, Detalist.class);
-                i.putExtra("resim",resimid);
+                i.putExtra("resim", sh.getString("resim1", resimid));
                 i.putExtra("country", country);
                 startActivity(i);
                 break;
             case R.id.linearLayout2:
+                String lnsehirr = lnsehir.getText().toString().trim();
+                Intent i2 = new Intent(MainActivity.this, Detalist.class);
+                i2.putExtra("resim", sh.getString("resim2", resimid));
+                i2.putExtra("country", lnsehirr);
+                startActivity(i2);
                 break;
+
             case R.id.linearLayout3:
+                String lnsehir2r = lnsehir2.getText().toString().trim();
+                Intent i3 = new Intent(MainActivity.this, Detalist.class);
+                i3.putExtra("resim", sh.getString("resim3", resimid));
+                i3.putExtra("country", lnsehir2r);
+                startActivity(i3);
                 break;
+
             case R.id.linearLayout4:
+                String lnsehirr4 = lnsehir4.getText().toString().trim();
+                Intent i4 = new Intent(MainActivity.this, Detalist.class);
+                i4.putExtra("resim", sh.getString("resim4", resimid));
+                i4.putExtra("country", lnsehirr4);
+                startActivity(i4);
                 break;
+*/
         }
 
     }
@@ -287,95 +488,104 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public void todaysweatherresim(String durum, String resimtext) {
-        if (durum.equals("Güneşli")) {
-            havaresim.setImageResource(R.drawable.ic_sunny);
-            resimid= String.valueOf(R.drawable.ic_sunny);
-        }
+    public void todaysweatherresim(String durum, String resimtext, ImageView havaresim) {
 
-      else   if (durum.equals("Bulutlu")
+
+        if (durum.equals("Güneşli")) {
+
+            havaresim.setImageResource(R.drawable.ic_sunny);
+            resimid = String.valueOf(R.drawable.ic_sunny);
+        } else if (durum.equals("Bulutlu")
                 & durum.equals("Çok Bulutlu")) {
             havaresim.setImageResource(R.drawable.ic_clouds);
-            resimid= String.valueOf(R.drawable.ic_clouds);
-        }
-        else   if (durum.equals("Parçalı Bulutlu")
-                ) {
+            resimid = String.valueOf(R.drawable.ic_clouds);
+        } else if (durum.equals("Parçalı Bulutlu")
+        ) {
             havaresim.setImageResource(R.drawable.ic_pblut);///BU KODU ALIPGÖNDERCEM
-            resimid= String.valueOf(R.drawable.ic_pblut);
+            resimid = String.valueOf(R.drawable.ic_pblut);
         }
         //YAĞMUR&KAR
-        else   if (durum.equals("Hafif yağmurlu")
-                & durum.equals("Düzensiz hafif yağmurlu")
-                & durum.equals("Hafif sağnak yağışlı")) {
+        else if (durum.equals("Hafif yağmurlu")
+                || durum.equals("Düzensiz hafif yağmurlu")
+                || durum.equals("Hafif sağnak yağışlı")) {
 
             havaresim.setImageResource(R.drawable.ic_hafifyamur);
-            resimid= String.valueOf(R.drawable.ic_hafifyamur);
-        }
-        else   if (durum.equals("Bölgesel düzensiz yağmur yağışlı")
-                & durum.equals("Ara ara orta kuvvetli yağmurlu")
-                & durum.equals("Orta kuvvetli yağmurlu")) {
+            resimid = String.valueOf(R.drawable.ic_hafifyamur);
+        } else if (durum.equals("Bölgesel düzensiz yağmur yağışlı")
+                || durum.equals("Ara ara orta kuvvetli yağmurlu")
+                || durum.equals("Orta kuvvetli yağmurlu")) {
             havaresim.setImageResource(R.drawable.ic_yamur);
-            resimid= String.valueOf(R.drawable.ic_yamur);
-        }
-        else   if (durum.equals("Şiddetli yağmurlu")
-                & durum.equals("Bölgesel düzensiz gök gürültülü yağmurlu")
-                & durum.equals("Orta kuvvetli veya yoğun sağnak yağışlı")
-                & durum.equals("Şiddetli sağnak yağmur")
-                & durum.equals("Ara ara şiddetli yağmurlu")) {
+            resimid = String.valueOf(R.drawable.ic_yamur);
+        } else if (durum.equals("Şiddetli yağmurlu")
+                || durum.equals("Bölgesel düzensiz gök gürültülü yağmurlu")
+                || durum.equals("Orta kuvvetli veya yoğun sağnak yağışlı")
+                || durum.equals("Şiddetli sağnak yağmur")
+                || durum.equals("Ara ara şiddetli yağmurlu")) {
             havaresim.setImageResource(R.drawable.ic_saganakyamur);
-            resimid= String.valueOf(R.drawable.ic_saganakyamur);
+            resimid = String.valueOf(R.drawable.ic_saganakyamur);
 
-        }
-        else  if (durum.equals("Hafif buz taneleri şeklinde sağnak yağış")
-                & durum.equals("Hafif karla karışık yağmur")
-                & durum.equals("Hafif dondurucu yağmurlu")) {
+        } else if (durum.equals("Hafif buz taneleri şeklinde sağnak yağış")
+                || durum.equals("Hafif karla karışık yağmur")
+                || durum.equals("Hafif dondurucu yağmurlu")) {
             havaresim.setImageResource(R.drawable.ic_karlayamur);
-            resimid= String.valueOf(R.drawable.ic_karlayamur);
+            resimid = String.valueOf(R.drawable.ic_karlayamur);
 
-        }
-        else   if (durum.equals("Orta kuvvetli veya yoğun buz taneleri sağnak yağışlı")
-                & durum.equals("Orta kuvvetli veya şiddetli karla karışık yağmur")
-                & durum.equals("Orta kuvvetli veya Şiddetli dondurucu yağmurlu")) {
+        } else if (durum.equals("Orta kuvvetli veya yoğun buz taneleri sağnak yağışlı")
+                || durum.equals("Orta kuvvetli veya şiddetli karla karışık yağmur")
+                || durum.equals("Orta kuvvetli veya Şiddetli dondurucu yağmurlu")) {
             havaresim.setImageResource(R.drawable.ic_yukselikarlayamur);
-            resimid= String.valueOf(R.drawable.ic_yukselikarlayamur);
+            resimid = String.valueOf(R.drawable.ic_yukselikarlayamur);
 
-        }
-        else  if (durum.equals("Hafif sağnak şeklinde kar")
-                & durum.equals("Düzensiz hafif karlı")
-                & durum.equals("Hafif karlı")) {
+        } else if (durum.equals("Hafif sağnak şeklinde kar")
+                || durum.equals("Düzensiz hafif karlı")
+                || durum.equals("Hafif karlı")) {
             havaresim.setImageResource(R.drawable.ic_hafifkar);
-            resimid= String.valueOf(R.drawable.ic_hafifkar);
+            resimid = String.valueOf(R.drawable.ic_hafifkar);
 
-        }
-        else  if (durum.equals("Düzensiz yoğun kar yağışlı")
-                & durum.equals("Orta kuvvetli veya yoğun ve sağnak şeklinde kar")
-                & durum.equals("Yoğun kar yağışlı")) {
+        } else if (durum.equals("Düzensiz yoğun kar yağışlı")
+                || durum.equals("Orta kuvvetli veya yoğun ve sağnak şeklinde kar")
+                || durum.equals("Yoğun kar yağışlı")) {
             havaresim.setImageResource(R.drawable.ic_yukkar);
-            resimid= String.valueOf(R.drawable.ic_yukkar);
+            resimid = String.valueOf(R.drawable.ic_yukkar);
 
-        }
-        else   if (durum.equals("Orta kuvvetli karlı") & durum.equals("Bölgesel düzensiz kar yağışlı")) {
+        } else if (durum.equals("Orta kuvvetli karlı") || durum.equals("Bölgesel düzensiz kar yağışlı")) {
             havaresim.setImageResource(R.drawable.ic_kar);
-            resimid= String.valueOf(R.drawable.ic_kar);
+            resimid = String.valueOf(R.drawable.ic_kar);
 
-        }
-        else    if (durum.equals("Kar fırtınası")
+        } else if (durum.equals("Kar fırtınası")
         ) {
             havaresim.setImageResource(R.drawable.ic_firtinakar);
-            resimid= String.valueOf(R.drawable.ic_firtinakar);
+            resimid = String.valueOf(R.drawable.ic_firtinakar);
 
-        }
-        else  if (durum.equals("Puslu")
-                & durum.equals("Dondurucu sis")
-                & durum.equals("Tipi")
-                & durum.equals("Sisli")) {
+        } else if (durum.equals("Puslu")
+                || durum.equals("Dondurucu sis")
+                || durum.equals("Tipi")
+                || durum.equals("Sisli")) {
             havaresim.setImageResource(R.drawable.ic_sisli);
-            resimid= String.valueOf(R.drawable.ic_sisli);
+            resimid = String.valueOf(R.drawable.ic_sisli);
 
         } else {
             Picasso.get().load(resimtext).into(havaresim);
-            resimid=resimtext;
+            resimid = resimtext;
         }
+
+        if (havaresim.getId() == havaresim1.getId()) {
+            shE.putString("resim1", resimid);
+            shE.commit();
+        }
+        if (havaresim.getId() == havaresim2.getId()) {
+            shE.putString("resim2", resimid);
+            shE.commit();
+        }
+        if (havaresim.getId() == havaresim3.getId()) {
+            shE.putString("resim3", resimid);
+            shE.commit();
+        }
+        if (havaresim.getId() == havaresim4.getId()) {
+            shE.putString("resim4", resimid);
+            shE.commit();
+        }
+
     }
 
     public void todaysweather(String api, String sehir, int days, String lang) {//anlıkkonumda çağırdık bunu
@@ -383,15 +593,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         call.enqueue(new Callback<Wee>() {
             @Override
             public void onResponse(Call<Wee> call, Response<Wee> response) {
-                ulke.setText(response.body().getLocation().getCountry()+ "," + response.body().getLocation().getLocaltime().substring(10,16));
+                final int lenght = response.body().getLocation().getLocaltime().length();
+                ulke.setText(response.body().getLocation().getCountry() + "," + response.body().getLocation().getLocaltime().substring(10, lenght));
 
                 String s = String.format("%.0f", response.body().getCurrent().getTempC());
                 derece.setText(s + "°");
-                Log.i("xxx", response.body().getCurrent().getCondition().getText());
-                Log.i("xxx", response.body().getCurrent().getCondition().getIcon());
+
                 String resim = "http:" + response.body().getCurrent().getCondition().getIcon();// http://cdn.weatherapi.com/weather/64x64/day/116.png
                 String havatexti = response.body().getCurrent().getCondition().getText();
-                todaysweatherresim(havatexti, resim);
+                todaysweatherresim(havatexti, resim, havaresim1);
 
             }
 
@@ -401,4 +611,81 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
     }
+
+    public void todaysweatherlinear2(String api, String sehir, int days, String lang) {//anlıkkonumda çağırdık bunu
+        Call<Wee> call = ManegarAll.getInstance().getirbilgier(api, sehir, days, lang);
+        call.enqueue(new Callback<Wee>() {
+            @Override
+            public void onResponse(Call<Wee> call, Response<Wee> response) {
+                if (response.isSuccessful()) {
+                    final int lenght = response.body().getLocation().getLocaltime().length();
+                    lnsehir2.setText(sh.getString("Sehir1", "gelmedi"));
+                    ulke2.setText(response.body().getLocation().getCountry() + "," + response.body().getLocation().getLocaltime().substring(10, lenght));
+
+                    String s = String.format("%.0f", response.body().getCurrent().getTempC());
+                    derece2.setText(s + "°");
+
+                    String resim = "http:" + response.body().getCurrent().getCondition().getIcon();// http://cdn.weatherapi.com/weather/64x64/day/116.png
+                    String havatexti = response.body().getCurrent().getCondition().getText();
+                    todaysweatherresim(havatexti, resim, havaresim2);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Wee> call, Throwable t) {
+            }
+        });
+
+    }
+
+    public void todaysweatherlinear3(String api, String sehir, int days, String lang) {//anlıkkonumda çağırdık bunu
+        Call<Wee> call = ManegarAll.getInstance().getirbilgier(api, sehir, days, lang);
+        call.enqueue(new Callback<Wee>() {
+            @Override
+            public void onResponse(Call<Wee> call, Response<Wee> response) {
+                if (response.isSuccessful()){
+                final int lenght = response.body().getLocation().getLocaltime().length();
+                lnsehir3.setText(sh.getString("Sehir2", "gelmedi"));
+                ulke3.setText(response.body().getLocation().getCountry() +
+                        "," + response.body().getLocation().getLocaltime().substring(10, lenght));
+
+                String s = String.format("%.0f", response.body().getCurrent().getTempC());
+                derece3.setText(s + "°");
+
+                String resim = "http:" + response.body().getCurrent().getCondition().getIcon();// http://cdn.weatherapi.com/weather/64x64/day/116.png
+                String havatexti = response.body().getCurrent().getCondition().getText();
+                todaysweatherresim(havatexti, resim, havaresim3);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Wee> call, Throwable t) {
+            }
+        });
+
+    }
+
+
+   /* public void SehirlerTR() {
+        Call<List<SehirCevap>>call = ManegarAll.getInstance().getirsehirleri();
+        call.enqueue(new Callback<List<SehirCevap>>() {
+            @Override
+            public void onResponse(Call<List<SehirCevap>> call, Response<List<SehirCevap>> response) {
+                if (response.isSuccessful())
+                {
+                    SehirAdapter sehirAdapter=new SehirAdapter(MainActivity.this,response.body());
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<SehirCevap>> call, Throwable t) {
+
+            }
+        });
+
+
+
+    }*/
 }
