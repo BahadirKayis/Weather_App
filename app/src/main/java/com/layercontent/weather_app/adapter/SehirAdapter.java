@@ -2,6 +2,8 @@ package com.layercontent.weather_app.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +22,13 @@ import com.layercontent.weather_app.jsonpopjo.SehirCevap;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SehirAdapter extends RecyclerView.Adapter<SehirAdapter.tanimlama> implements Filterable {
+public class SehirAdapter extends RecyclerView.Adapter<SehirAdapter.tanimlama> {
     Context context;
+
+    public void setSehirCevapList(List<SehirCevap> sehirCevapList) {
+        this.sehirCevapList = sehirCevapList;
+    }
+
     List<SehirCevap> sehirCevapList;
     List<SehirCevap> ListFull;
 
@@ -61,40 +68,7 @@ public class SehirAdapter extends RecyclerView.Adapter<SehirAdapter.tanimlama> i
         return sehirCevapList.size();
     }
 
-    @Override
-    public Filter getFilter() {
 
-        return examplefilter;
-    }//tweqw
-
-    private Filter examplefilter = new Filter() {
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            List<SehirCevap> filtredlist = new ArrayList<>();
-            if (constraint.toString().isEmpty()) {
-                filtredlist.addAll(ListFull);
-            } else {
-                String filterPattern = constraint.toString().toLowerCase().trim();
-                for (SehirCevap item:ListFull){
-                    if (item.getName().toLowerCase().contains(filterPattern)){
-                        filtredlist.add(item);
-                    }
-                }
-            }
-            FilterResults results=new FilterResults();
-            results.values=filtredlist;
-            return results;
-        }
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-          sehirCevapList.clear();
-          sehirCevapList.addAll((List)results.values);
-          notifyDataSetChanged();
-
-
-        }
-    };
 
     public class tanimlama extends RecyclerView.ViewHolder {
         TextView testplaka, textsehir;
