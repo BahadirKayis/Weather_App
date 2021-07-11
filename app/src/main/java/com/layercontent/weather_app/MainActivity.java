@@ -85,8 +85,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sh = getSharedPreferences("SehirSayaci", MODE_PRIVATE);
 
         shE = sh.edit();
-   /*  shE.remove("sayac").apply();
-         shE.putString("Sehir1",null);
+  /* shE.remove("sayac").apply();
+          shE.putString("Sehir1",null);
         shE.putString("Sehir2",null);
         shE.putString("Sehir3",null);
         shE.commit();*/
@@ -103,7 +103,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
                 if (sh.getString("resim1", null) != null) {
-
                     String country = text.getText().toString().trim();
                     Intent i = new Intent(MainActivity.this, Detalist.class);
                     i.putExtra("resim", sh.getString("resim1", resimid));
@@ -195,8 +194,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void ListSehirsec() {
-        click = sh.getInt("sayac", 0);
 
+        click = sh.getInt("sayac", 0);
         switch (click) {
 
             case 1:
@@ -330,6 +329,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 click++;
                 shE.putInt("sayac", click);
                 shE.commit();
+
                 startActivity(new Intent(MainActivity.this, SehirSecme.class));
 
                 break;

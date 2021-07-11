@@ -33,8 +33,6 @@ public class Detalist extends AppCompatActivity {
     String sehir, resimgelen;
     int resimid;
     final String api = "f4addb85b5e4492f8ed115420211606";
-
-
     List<Condition__1> conditionList2;
     List<Day> dayList;
     RecyclerView recyclerView;
@@ -58,7 +56,6 @@ public class Detalist extends AppCompatActivity {
         textsehir = findViewById(R.id.textViewsehir);
         textderece = findViewById(R.id.textderece);
         texthavadurumu = findViewById(R.id.texthavadurumu);
-
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);

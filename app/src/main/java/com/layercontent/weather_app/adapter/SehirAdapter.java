@@ -20,14 +20,11 @@ import com.layercontent.weather_app.R;
 import com.layercontent.weather_app.jsonpopjo.SehirCevap;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-public class SehirAdapter extends RecyclerView.Adapter<SehirAdapter.tanimlama> {
+public class SehirAdapter extends RecyclerView.Adapter<SehirAdapter.tanimlama> implements Filterable {
     Context context;
-
-    public void setSehirCevapList(List<SehirCevap> sehirCevapList) {
-        this.sehirCevapList = sehirCevapList;
-    }
 
     List<SehirCevap> sehirCevapList;
     List<SehirCevap> ListFull;
@@ -35,11 +32,41 @@ public class SehirAdapter extends RecyclerView.Adapter<SehirAdapter.tanimlama> {
     public SehirAdapter(Context context, List<SehirCevap> sehirCevapList) {
         this.context = context;
         this.sehirCevapList = sehirCevapList;
-        ListFull = new ArrayList<>(sehirCevapList);
+       this.ListFull=sehirCevapList;
+    }
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String strsearch = constraint.toString();
+                if (strsearch.isEmpty()) {
+                    sehirCevapList = ListFull;
+                } else {
+                    List<SehirCevap> list = new ArrayList<>();
+                    for (SehirCevap item : ListFull) {
+                        if (item.getName().toLowerCase().contains(strsearch.toLowerCase())) {
+                            list.add(item);
+                        }
+                    }
+                    sehirCevapList = list;
+                }
+                FilterResults results = new FilterResults();
+                results.values = sehirCevapList;
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                sehirCevapList.clear();
+
+                sehirCevapList.addAll((Collection<? extends SehirCevap>) results.values);
+                notifyDataSetChanged();
+            }
+        };
     }
 
     @NonNull
-
     @Override
     public tanimlama onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.sehirlayoutselect, parent, false);
@@ -61,12 +88,19 @@ public class SehirAdapter extends RecyclerView.Adapter<SehirAdapter.tanimlama> {
                                                    }
                                                }
         );
+       /* holder.itemView.setOnClickListener(v -> {
+            Intent i = new Intent(context, MainActivity.class);
+            i.putExtra("sehir", sehirCevapList.get(position).getName());
+            context.startActivity(i);
+        });*/
     }
 
     @Override
     public int getItemCount() {
         return sehirCevapList.size();
     }
+
+
 
 
 
@@ -81,5 +115,6 @@ public class SehirAdapter extends RecyclerView.Adapter<SehirAdapter.tanimlama> {
             textsehir = itemView.findViewById(R.id.sehirname);
         }
     }
+
 
 }

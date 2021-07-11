@@ -95,16 +95,14 @@
         android:id="@+id/recylerid"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="25dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="25dp"
         android:layout_marginBottom="3dp"
         android:foregroundGravity="center"
         android:paddingLeft="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/imagehavaresim"
+        app:layout_constraintEnd_toEndOf="@+id/textViewsehir"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/imagehavaresim"
+        app:layout_constraintStart_toStartOf="@+id/textViewsehir"
         app:layout_constraintTop_toBottomOf="@+id/texthavadurumu"></androidx.recyclerview.widget.RecyclerView>
 
 

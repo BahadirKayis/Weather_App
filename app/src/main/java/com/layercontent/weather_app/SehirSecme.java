@@ -7,9 +7,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 import com.layercontent.weather_app.Retrofit.ManegarAll;
 import com.layercontent.weather_app.adapter.SehirAdapter;
@@ -22,11 +27,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SehirSecme extends AppCompatActivity implements SearchView.OnQueryTextListener  {
+public class SehirSecme extends AppCompatActivity {
     RecyclerView recyclerViewsehir;
     Toolbar toolbar;
     SehirAdapter sehirAdapter;
-
+private SearchView searchView;
     List<SehirCevap> listsehirle;
     SehirCevap sehirCevap;
 
@@ -35,6 +40,7 @@ public class SehirSecme extends AppCompatActivity implements SearchView.OnQueryT
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sehir_secme);
+
 
         recyclerViewsehir = findViewById(R.id.recysehir);
         recyclerViewsehir.setHasFixedSize(true);
@@ -45,7 +51,6 @@ public class SehirSecme extends AppCompatActivity implements SearchView.OnQueryT
 
     }
 
-
     public void SehirlerTR() {
         Call<List<SehirCevap>> call = ManegarAll.getInstance().getirsehirleri();
         call.enqueue(new Callback<List<SehirCevap>>() {
@@ -55,19 +60,12 @@ public class SehirSecme extends AppCompatActivity implements SearchView.OnQueryT
 
                     SehirAdapter sehirAdapter = new SehirAdapter(SehirSecme.this, response.body());
                     recyclerViewsehir.setAdapter(sehirAdapter);
-
-
-
                 }
             }
-
             @Override
             public void onFailure(Call<List<SehirCevap>> call, Throwable t) {
-
             }
         });
-
-
     }
 
     @SuppressLint("ResourceAsColor")
@@ -76,42 +74,32 @@ public class SehirSecme extends AppCompatActivity implements SearchView.OnQueryT
         toolbar.setTitle("Arama");
         toolbar.setTitleTextColor(R.color.black);
         setSupportActionBar(toolbar);
-        
-
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.sehirarama, menu);
-        MenuItem item = menu.findItem(R.id.arama);
-        SearchView searchView = (SearchView) item.getActionView();
-        searchView.setOnQueryTextListener(this);
+        SearchManager manager= (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+searchView= (SearchView) menu.findItem(R.id.arama).getActionView();
+searchView.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
 
-        return super.onCreateOptionsMenu(menu);
-    }
-
-
+      searchView.setMaxWidth(Integer.MAX_VALUE);
+searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
     @Override
     public boolean onQueryTextSubmit(String query) {
+        sehirAdapter.getFilter().filter(query);
         return false;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        if (newText.trim().length()>=1){
+        sehirAdapter.getFilter().filter(newText);
 
-
-        List<SehirCevap> newsehir=new ArrayList<>();
-        for (SehirCevap s:listsehirle){
-            if (s.getName().toLowerCase().contains(newText.toLowerCase().trim())){
-                newsehir.add(s);
-            }
-        }
-        sehirAdapter.setSehirCevapList(newsehir);
-        sehirAdapter.notifyDataSetChanged();
-        }
         return false;
     }
+});
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
 }
