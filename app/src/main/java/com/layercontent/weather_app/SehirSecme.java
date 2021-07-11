@@ -58,7 +58,7 @@ private SearchView searchView;
             public void onResponse(Call<List<SehirCevap>> call, Response<List<SehirCevap>> response) {
                 if (response.isSuccessful()) {
 
-                    SehirAdapter sehirAdapter = new SehirAdapter(SehirSecme.this, response.body());
+                    sehirAdapter = new SehirAdapter(SehirSecme.this, response.body());
                     recyclerViewsehir.setAdapter(sehirAdapter);
                 }
             }
@@ -87,13 +87,21 @@ searchView.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
 searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
     @Override
     public boolean onQueryTextSubmit(String query) {
-        sehirAdapter.getFilter().filter(query);
+
+        if (sehirAdapter.getFilter() != null) {
+            sehirAdapter.getFilter().filter(query);
+
+        }
         return false;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        sehirAdapter.getFilter().filter(newText);
+
+        if (sehirAdapter.getFilter() != null) {
+            sehirAdapter.getFilter().filter(newText);
+
+        }
 
         return false;
     }

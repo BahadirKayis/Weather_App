@@ -32,39 +32,45 @@ public class SehirAdapter extends RecyclerView.Adapter<SehirAdapter.tanimlama> i
     public SehirAdapter(Context context, List<SehirCevap> sehirCevapList) {
         this.context = context;
         this.sehirCevapList = sehirCevapList;
-       this.ListFull=sehirCevapList;
+        this.ListFull = sehirCevapList;
     }
+
     @Override
     public Filter getFilter() {
-        return new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-                String strsearch = constraint.toString();
-                if (strsearch.isEmpty()) {
-                    sehirCevapList = ListFull;
-                } else {
-                    List<SehirCevap> list = new ArrayList<>();
-                    for (SehirCevap item : ListFull) {
-                        if (item.getName().toLowerCase().contains(strsearch.toLowerCase())) {
-                            list.add(item);
-                        }
-                    }
-                    sehirCevapList = list;
-                }
-                FilterResults results = new FilterResults();
-                results.values = sehirCevapList;
-                return results;
-            }
-
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-                sehirCevapList.clear();
-
-                sehirCevapList.addAll((Collection<? extends SehirCevap>) results.values);
-                notifyDataSetChanged();
-            }
-        };
+        return exampleFilter;
     }
+
+    private Filter exampleFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<SehirCevap> filteredList = new ArrayList<>();
+
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(ListFull);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (SehirCevap item : ListFull) {
+                    if (item.getName().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+
+                    }
+                }
+            }
+
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            sehirCevapList.clear();
+            sehirCevapList.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     @NonNull
     @Override
@@ -99,9 +105,6 @@ public class SehirAdapter extends RecyclerView.Adapter<SehirAdapter.tanimlama> i
     public int getItemCount() {
         return sehirCevapList.size();
     }
-
-
-
 
 
     public class tanimlama extends RecyclerView.ViewHolder {
