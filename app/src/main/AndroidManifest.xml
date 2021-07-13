@@ -13,11 +13,11 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_weather"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/ic_weather"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Weather_app"
+        android:theme="@style/Theme.Weather"
         android:usesCleartextTraffic="true">
         <activity android:name=".SehirSecme"></activity>
         <activity android:name=".Detalist" />

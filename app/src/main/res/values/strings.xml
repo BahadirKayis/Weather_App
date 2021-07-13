@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Weather_app</string>
+    <string name="app_name">Hava Durumu</string>
     <string name="title_activity_maps">Map</string>
     <string name="must_accep_find_location">Adres Bulmayı Kabul Ediyor musunuz ?</string>
     <string name="no">Hayır</string>

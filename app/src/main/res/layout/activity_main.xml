@@ -16,7 +16,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginBottom="10dp"
         android:fontFamily="@font/montserrat_extrabold"
-        android:text="Weather"
+        android:text="Hava Durumu"
 
         android:textColor="@color/black"
         android:textSize="24sp"
