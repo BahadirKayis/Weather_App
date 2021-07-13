@@ -44,7 +44,7 @@ public class SehirAdapter extends RecyclerView.Adapter<SehirAdapter.tanimlama> i
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             List<SehirCevap> filteredList = new ArrayList<>();
-
+ 
             if (constraint == null || constraint.length() == 0) {
                 filteredList.addAll(ListFull);
             } else {

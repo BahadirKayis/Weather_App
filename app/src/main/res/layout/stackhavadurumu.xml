@@ -4,7 +4,7 @@
     android:padding="5dp"
     android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="170dp"
+    android:layout_width="150dp"
     android:layout_height="180dp">
 
     <TextView
@@ -24,6 +24,7 @@
         android:id="@+id/stackresim"
         android:layout_width="100dp"
         android:layout_height="80dp"
+
         android:layout_marginBottom="3dp"
 android:layout_gravity="center"
         android:src="@drawable/ic_cloud_lightning"

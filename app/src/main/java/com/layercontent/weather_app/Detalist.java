@@ -62,10 +62,15 @@ public class Detalist extends AppCompatActivity {
         //recyclerView.setLayoutManager(new GridLayoutManager(Detalist.this, 3));
         sehir = getIntent().getStringExtra("country");
         resimgelen = getIntent().getStringExtra("resim");
-        if (resimgelen.matches("png")) {
+        //İçinde belirtilen kelime geçiyorsa
+        if (resimgelen.matches("(.*)png(.*)")) {
+
             Picasso.get().load(resimgelen).into(resimimage);
         }
-        resimimage.setImageResource(Integer.parseInt(resimgelen));
+        else{
+            resimimage.setImageResource(Integer.parseInt(resimgelen));
+        }
+
         Havadurum(api, sehir, 3, "tr");
     }
 

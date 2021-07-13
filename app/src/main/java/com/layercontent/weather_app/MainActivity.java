@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         sh = getSharedPreferences("SehirSayaci", MODE_PRIVATE);
 
         shE = sh.edit();
-  /* shE.remove("sayac").apply();
+   /*shE.remove("sayac").apply();
           shE.putString("Sehir1",null);
         shE.putString("Sehir2",null);
         shE.putString("Sehir3",null);
@@ -194,10 +194,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void ListSehirsec() {
-
         click = sh.getInt("sayac", 0);
         switch (click) {
-
             case 1:
                 if (secilensehir != null) {
                     shE.putString("Sehir1", secilensehir);
